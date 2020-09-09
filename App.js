@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View , Picker, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
+import Contador from './Contador';
 
 
 export default function App() {
@@ -143,9 +144,11 @@ export default function App() {
   );
   }else if(estado == 'iniciar'){
     return(
-      <View>
-        <Text>Iniciou</Text>
-      </View>
+        <Contador
+          setEstado={setEstado}
+          minutes={minutes}
+          seconds={seconds}
+        />
       )
 }
 }
