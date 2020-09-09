@@ -7,13 +7,14 @@ import {LinearGradient} from 'expo-linear-gradient';
 export default function App() {
 
   console.disableYellowBox=true;
+  const [estado, setEstado] = useState('selecionar')
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
   const [alarmSound, setAlarmSound] = useState([
     {
       id: 1,
-      selected: true,
+      selected: false,
       sound: 'alarm 1',
       file: 'alarm 1.mp3',
     },
@@ -52,6 +53,7 @@ export default function App() {
     setAlarmSound(alarmsTmp);
   }
 
+  if(estado=='selecionar'){
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -91,6 +93,7 @@ export default function App() {
           onValueChange={(itemValue, itemIndex)=> setSeconds(itemValue)}        
           style={{height:50, width:100, color:'#fff'}}
         >
+          <Picker.Item label='0'  value='0' />
           {
             numbers.map(function(val){
               return  <Picker.Item label={val.toString()} value={val.toString()} />
@@ -126,9 +129,25 @@ export default function App() {
 
         }
       </View>
+
+        <TouchableOpacity 
+          onPress={()=>{
+            setEstado('iniciar')
+          }}
+          style={styles.btnIniciar}>
+          <Text style={styles.textBtnIniciar}>Iniciar</Text>
+        </TouchableOpacity>
+
       <StatusBar style="auto" />
     </View>
   );
+  }else if(estado == 'iniciar'){
+    return(
+      <View>
+        <Text>Iniciou</Text>
+      </View>
+      )
+}
 }
 
 const styles = StyleSheet.create({
@@ -157,4 +176,21 @@ const styles = StyleSheet.create({
     borderColor:'#fff',
     borderWidth:1,
   },
+
+btnIniciar:{
+  width:100,
+  backgroundColor: 'rgb(116,67,191)',
+  height:100,
+  borderRadius: 50,
+  marginTop:30,  
+  borderColor: '#fff',
+  borderWidth:2,
+},
+
+textBtnIniciar:{
+  textAlign:"center",
+  paddingTop:30,
+  color:'#fff',
+  fontSize:20
+}
 });
