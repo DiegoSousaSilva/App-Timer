@@ -9,7 +9,7 @@ export default function App() {
 
   console.disableYellowBox=true;
   const [estado, setEstado] = useState('selecionar')
-  const [seconds, setSeconds] = useState(0);
+  const [seconds, setSeconds] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
   const [alarmSound, setAlarmSound] = useState([
@@ -94,7 +94,7 @@ export default function App() {
           onValueChange={(itemValue, itemIndex)=> setSeconds(itemValue)}        
           style={{height:50, width:100, color:'#fff'}}
         >
-          <Picker.Item label='0'  value='0' />
+          
           {
             numbers.map(function(val){
               return  <Picker.Item label={val.toString()} value={val.toString()} />
@@ -145,6 +145,8 @@ export default function App() {
   }else if(estado == 'iniciar'){
     return(
         <Contador
+          setMinutes={setMinutes}
+          setSeconds={setSeconds}
           setEstado={setEstado}
           minutes={minutes}
           seconds={seconds}

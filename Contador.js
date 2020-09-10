@@ -1,9 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View , Picker, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 const Contador = (props) =>{
+
+  var done = false;
+
+  useEffect(() => {
+    const timer = setInterval(()=>{
+      props.setSeconds(props.seconds - 1);
+      if(props.seconds <=0){
+        if(props.minutes >0){
+          props.setMinutes(props.minutes-1);
+          props.setSeconds(59);
+        }else{
+          if(!done){
+            done = true;
+            props.setEstado('selecionar');
+            props.setMinutes(0);
+            props.setSeconds(1);
+            alert('Fim da contagem');
+          }
+        }
+      }
+    },1000)
+
+    return ()=> clearInterval(timer);
+  })
+
+  function voltar(){
+    props.setEstado('selecionar');
+   // props.setMinutes(0);
+    //props.setSeconds(1);
+  };
+
+  function numberFormat(number){
+    var finalNumber = "";
+    if(number < 10){
+      finalNumber = "0"+number;
+    }else{
+      finalNumber=number;
+    }
+    return finalNumber;
+  }
+
+  var sec = numberFormat(props.seconds);
+  var min = numberFormat(props.minutes);
+
+
   return(
     <View style={styles.container}>
       <LinearGradient
@@ -20,14 +65,12 @@ const Contador = (props) =>{
       />
 
         <View style={{flexDirection:'row'}}>
-          <Text style={styles.textContador}>{props.minutes} : </Text>
-          <Text style={styles.textContador}>{props.seconds}</Text>
+          <Text style={styles.textContador}>{min} : </Text>
+          <Text style={styles.textContador}>{sec}</Text>
         </View>
 
         <TouchableOpacity 
-          onPress={()=>{
-            props.setEstado('selecionar')
-          }}
+          onPress={()=>{voltar()}}
           style={styles.btnVoltar}>
           <Text style={styles.textBtnVoltar}>Voltar</Text>
         </TouchableOpacity>
