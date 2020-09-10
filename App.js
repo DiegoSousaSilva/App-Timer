@@ -17,21 +17,21 @@ export default function App() {
       id: 1,
       selected: false,
       sound: 'alarm 1',
-      file: 'alarm 1.mp3',
+      file: require('./assets/alarme.mp3'),
     },
 
     {
       id: 2,
       selected: false,
       sound: 'alarm 2', 
-      file: 'alarm 2.mp3',     
+      file: require('./assets/alarme.mp3'),
     },
 
     {
       id: 3,
       selected: false,
       sound: 'alarm 3', 
-      file: 'alarm 3.mp3',     
+      file: require('./assets/alarme.mp3'),     
     }
   ]);
 
@@ -47,7 +47,7 @@ export default function App() {
     }
      else{
        val.selected = true;
-       return val;
+   //    return val;
      }   
      return val;
     })
@@ -145,6 +145,7 @@ export default function App() {
   }else if(estado == 'iniciar'){
     return(
         <Contador
+          alarms={alarmSound}
           setMinutes={setMinutes}
           setSeconds={setSeconds}
           setEstado={setEstado}

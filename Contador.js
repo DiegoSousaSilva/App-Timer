@@ -1,18 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View , Picker, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View , TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
+import {Audio} from 'expo-av';
 
 const Contador = (props) =>{
 
   var done = false;
 
+
+
   useEffect(() => {
     const timer = setInterval(()=>{
-      props.setSeconds(props.seconds - 1);
+      props.setSeconds(props.seconds-1);
       if(props.seconds <=0){
-        if(props.minutes >0){
-          props.setMinutes(props.minutes-1);
+        if(props.minutes > 0){
+          props.setMinutes(min-1);
           props.setSeconds(59);
         }else{
           if(!done){
@@ -20,19 +23,40 @@ const Contador = (props) =>{
             props.setEstado('selecionar');
             props.setMinutes(0);
             props.setSeconds(1);
-            alert('Fim da contagem');
+            playSound();
           }
         }
       }
     },1000)
 
     return ()=> clearInterval(timer);
-  })
+  });
+
+
+  async function playSound(){
+    const soundObject = new Audio.Sound();
+    try{
+      var alarm;
+      props.alarms.map((val)=>{
+        if(val.selected){
+          alarm = val.file;
+        }
+      })
+      await soundObject.loadAsync(alarm);
+      await soundObject.playAsync();
+
+      //await soundObject.unloadAsync();  
+    }
+    catch (error){
+
+    }
+  };
+
 
   function voltar(){
     props.setEstado('selecionar');
-   // props.setMinutes(0);
-    //props.setSeconds(1);
+    props.setMinutes(0);
+    props.setSeconds(1);
   };
 
   function numberFormat(number){
